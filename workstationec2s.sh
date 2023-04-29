@@ -21,7 +21,7 @@ create_ec2() {
       | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
 
   sed -e "s/IPADDRESS/${PRIVATE_IP}/" -e "s/COMPONENT/${COMPONENT}/" -e "s/DOMAIN/${DOMAIN}/" Route53.json >/tmp/record.json
-  aws Route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file:///tmp/record.json 2>/dev/null
+  aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file:///tmp/Record.json 2>/dev/null
   if [ $? -eq 0 ]; then
     echo "Server Created - SUCCESS - DNS RECORD - ${COMPONENT}.${DOMAIN}"
   else
